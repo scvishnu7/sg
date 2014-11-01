@@ -14,7 +14,7 @@
 <h1>Suggestions Receved</h1>
 
 <?php
-
+echo "received."
 ?>
 </body>
 </html>
