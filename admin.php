@@ -4,8 +4,8 @@
 
 <?php
 	include('dataModels.php');
-	$suggestions = new Array();
 	
+	$suggestions = new Array();	
 ?>
 
 </head>
