@@ -63,10 +63,14 @@
 <body>
 <div id="container">
 	<h2 style="background-color:green;width:100%;text-align:center">Vishnu's Suggestion Box</h2>
-	<p>You can suggest on following topics or on anything you want.</p>
+	<p>You can suggest on following topics by including the corresponding has tag or on anything you want.<br/>
+	You can also tag some people simple by prepending @ before their name.</p> 
+	<p>
+	Example: <i>"The <b>#kitchen</b> is badly managed while the cook<b> @ramesh</b> is a hard working man."</i>
+	</p>
 	<ul>
-	<li>hairstyle	: Do you like my hair style?</li>
-	<li>attitude	: What about my attitude?</li>
+	<li>#hairstyle	: Do you like my hair style?</li>
+	<li>#attitude	: What about my attitude?</li>
 	</ul>
 	<div id="sgBox">
 		<form method="POST" action="#">
