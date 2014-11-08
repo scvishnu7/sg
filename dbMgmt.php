@@ -1,10 +1,14 @@
 <?php
+include('dataModels.php');
+
 class DbManager {
 	var $host;
 	var $username;
 	var $password;
 	var $database;
 	public $dbh;
+
+	var $sug_table="sg_body";
 
 public function init_db(){
 		$this->host="localhost";
@@ -23,6 +27,19 @@ public function writeToDb($suggestion){
 	$result = mysql_query("INSERT INTO sg_body values(null,\"".$cur_date."\",\"".$suggestion."\")",$this->dbh);
 
 }
+
+public function getAllSuggestion(){
+	$result = mysql_query("SELECT * from sg_body");
+	$array = array();
+	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$sug = new Suggestion();
+		$sug->body = $row["suggestion"];
+		$sug->date = $row["time"];
+		$sug->id = $row["id"];
+		$array[] = $sug;
+	}
+	return $array;
+	}
 
 }
 

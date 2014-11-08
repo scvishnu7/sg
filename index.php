@@ -62,7 +62,7 @@
 
 <body>
 <div id="container">
-	<h2 style="background-color:green;width:100%;text-align:center">Vishnu's Suggestion Box</h2>
+	<h2 style="background-color:green;width:100%;text-align:center">Lts2gthr's Suggestion Box</h2>
 	<p>You can suggest on following topics by including the corresponding has tag or on anything you want.<br/>
 	You can also tag some people simple by prepending @ before their name.</p> 
 	<p>
