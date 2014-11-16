@@ -33,7 +33,7 @@ class Conf{
 	}
 
 		//Create tables
-public function createTables(){
+public function createTables($adminName,$adminPass){
 		
 	$dbh = mysql_connect(Conf::$conf_host, $this->dbuname, $this->dbpass)or die("cannot connect"); //Store data connection specifier in object
     mysql_select_db($this->dbname)or die("cannot select DB");
@@ -42,8 +42,9 @@ public function createTables(){
 	$qMake_sg_table="create table sg_body(id int primary key auto_increment, time varchar(30),suggestion blob)";	
 	$qInsTestData="insert into sg_body values(null,\"abc\",\"suggestion1\")";
 	
+	$qDrop_userTable="drop table if exists sg_user";
 	$qMake_userTable="create table sg_user(username varchar(20) primary key, password varchar(100))";
-	$qMake_defaultAdmin="insert into sg_user values(\"admin\",password(\"sgadmin\"))";
+	$qMake_admin="insert into sg_user values(\"".$adminName."\",password(\"".$adminPass."\"))";
 //you can change it later from the admin console
 
 	//create issues table
@@ -54,8 +55,9 @@ public function createTables(){
 	mysql_query($qMake_sg_table, $dbh);
 	mysql_query($qInsTestData, $dbh);
 	
+	mysql_query($qDrop_userTable);
 	mysql_query($qMake_userTable);
-	mysql_query($qMake_defaultAdmin);
+	mysql_query($qMake_admin);
 		
 	echo "Done";
 }	

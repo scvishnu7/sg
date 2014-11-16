@@ -33,6 +33,16 @@ public function writeToDb($suggestion){
 
 }
 
+public function checkUserCred($user, $pass){
+	$query = "SELECT * from sg_user where username=\"".$user."\" && password=password(\"".$pass."\")";
+	$res = mysql_query($query);
+	if(mysql_num_rows($res)==1){
+		return true;	
+	}
+	return false;
+
+}
+
 public function getAllSuggestion(){
 	$result = mysql_query("SELECT * from sg_body");
 	$array = array();

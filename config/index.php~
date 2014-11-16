@@ -4,8 +4,7 @@
 	include('conf.php');
 	//fetch all var and initialize fields accordingly
 
-	
-	
+
 	if(isset($_POST['submit'])){
 		$confs= array();
 		$confs[Conf::$key_dbname]=$_POST['dbname'];
@@ -24,7 +23,7 @@
 	if(isset($_POST['createTable'])){
 			echo "trying";
 			$config = new Conf();
-			$config->createTables();	
+			$config->createTables($_POST['adminName'],$_POST['adminPass']);	
 	}
 ?>
 
@@ -49,6 +48,20 @@ echo <<< FORMBODY
 	<td>DB Password:</td>
 	<td> <input type="password" name="dbpass" value="*******"><br/></td></tr>
 	
+	
+	<tr>
+	<td>Admin uName:</td>
+	<td><input type="text" name="adminName" ></td>
+	</tr>
+	
+	<tr>
+	<td>Admin Pass:</td>
+	<td><input type="password" name="adminPass" value="*******"></td>
+	</tr>
+	<tr>
+	<td>Admin Pass again:</td>
+	<td><input type="password" name="adminRePass" value="*******"></td>
+	</tr>	
 	<tr>
 	<td><input type="submit" name="submit" values="Save"/></td>
 	<td><input type="submit" name="createTable" value="Create Tables"/></td>

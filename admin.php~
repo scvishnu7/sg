@@ -3,9 +3,36 @@
 <title>Suggestion Admin Panel</title>
 
 <?php
+	session_start();
 	include('dbMgmt.php');
-	
 	$db = new dbManager();
+		
+	$isLogined=false;
+	$loginedUser = "";
+	if(isset($_POST['Login'])){
+		//need to check the user form user db	
+		if($db->checkUserCred($_POST['uname'],$_POST['pass'])){
+					$_SESSION['user']= $_POST['uname'];	
+					$isLogined = true;
+		}	else {
+			echo "Sorry Wrong uname or pass!!";
+			$isLogined = false;		
+		}
+	}
+		
+	if(isset($_POST['logout'])){
+		unset($_SESSION['user']);	
+		
+	}		
+		
+	if(isset($_SESSION['user'])){
+		$isLogined = true;
+		$loginedUser = $_SESSION['user'];
+	} else {
+		$isLogined= false;
+	}
+	
+
 	$suggestions = array();
 	$suggestions = $db->getAllSuggestion();
 	
@@ -45,12 +72,12 @@
 	align:center;
 }
 
-table {
+#suggestionDiv table {
 	width:100%;
 	margin:auto;
 }
 
-table, th, td {
+#suggestionDiv table th td {
    border: 1px solid black;
    border-collapse: collapse;
    
@@ -66,6 +93,32 @@ td {
 
 </head>
 <body>
+
+<?php 
+//give login screen.
+if(!$isLogined){ 
+echo <<< FORMINP
+			<form target="#" method="POST">
+				<table>				
+
+				<tr><td>username :</td><td> <input type="text" name="uname"></td></tr>
+				<tr><td>pass :</td><td><input type="password" name="pass"></td></tr>
+				<tr><td><input type="submit" name="Login"></td></tr>
+				
+				</table>
+			</form>		
+FORMINP;
+		exit();
+	}	else {
+	echo " Welcome Mr. ".$loginedUser;
+echo <<< LOGOUT
+	<form target="#" method="POST" style='display:inline;'>
+	<input type="submit" name="logout" value="LOGOUT">
+	<input type="submit" name="chgpasswd" value="Change Password" onClick="alert('working on');">
+	</form>
+LOGOUT;
+	}
+?>
 
 <h1>Suggestions Receved</h1>
 <p>
@@ -86,7 +139,7 @@ containing word: <input type="text" name="searchKeyword">
 <hr/>
 
 <div  id="suggestionDiv">
-<table  >
+<table >
 	<tr>
 		<td>ID</td>
 		<td>Date</td>
