@@ -55,6 +55,10 @@ public function getAllSuggestion(){
 	}
 	return $array;
 	}
+	
+	public function delSuggestion($sug_id){
+			
+	}
 }
 
 ?>

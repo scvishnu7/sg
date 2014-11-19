@@ -21,8 +21,7 @@
 	}
 		
 	if(isset($_POST['logout'])){
-		unset($_SESSION['user']);	
-		
+		unset($_SESSION['user']);			
 	}		
 		
 	if(isset($_SESSION['user'])){
@@ -77,7 +76,7 @@
 	margin:auto;
 }
 
-#suggestionDiv table th td {
+#suggestionDiv table, #suggestionDiv th, #suggestionDiv td {
    border: 1px solid black;
    border-collapse: collapse;
    
@@ -144,6 +143,7 @@ containing word: <input type="text" name="searchKeyword">
 		<td>ID</td>
 		<td>Date</td>
 		<td>Suggestion</td>
+		<td>Action</td>
 	</tr>
 <?php
 $i=0;
@@ -155,6 +155,7 @@ echo <<< TABLE_ROW
 			<td> $sug->id </td>
 			<td> $sug->date</td>
 			<td> $sug->body</td>
+			<td> <input type="button" onClick="clickedOn(\'abc\');" value="Delete"></td>
 		</tr>
 
 TABLE_ROW;
@@ -165,9 +166,13 @@ TABLE_ROW;
 </table>
 
 </div>
-
 </div>
-
 </body>
+<script type="text/javascript">
+function clickedOn(var name) {
+	alert("Hello World");	
+}
+
+</script>
 </html>
 
