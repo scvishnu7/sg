@@ -2,22 +2,17 @@
 <head>
 <title>Suggestion Box</title>
 <?php
-	include('postSuggestion.php');
-		
-	$db = new dbManager();
+	include('dbMgmt.php');
+	
+	$db = new DbManager();
+
 	$issues = array();
 	$issues = $db->getIssues();
 			
-		
 	$suggestion = $_POST['suggestion'];
 	if(strlen(trim($suggestion))>0){
-		if(save_suggestion($suggestion)){
-			echo " suggestion Saved ";
-		}
+		$db->writeToDb($suggestion);
 	}
-	
-	
-	
 ?>
 
 <style type="text/css">
@@ -73,25 +68,22 @@
 	<h2 style="background-color:green;width:100%;text-align:center">Lts2gthr's Suggestion Box</h2>
 	<p>You can suggest on following topics by including the corresponding has tag or on anything you want.<br/>
 	You can also tag some people simple by prepending @ before their name.</p> 
-	<p>
-	Example: <i>"The <b>#kitchen</b> is badly managed while the cook<b> @ramesh</b> is a hard working man."</i>
-	</p>
-
+	
 <div  id="issuesDiv">
-	<ul>
-		
+<ul>
 <?php
 foreach( $issues as $iss) {
 echo <<< ISSUE_ROW
 			<li><b>#$iss->hashtag</b> : $iss->description</li>
 ISSUE_ROW;
 }
-
 ?>	
-	
-	</ul>
+</ul>
+
 </div>	
-	
+	<p>
+	Example: <i>"The <b>#kitchen</b> is badly managed while the cook<b> @ramesh</b> is a hard working man."</i>
+	</p>
 	<div id="sgBox">
 		<form method="POST" action="#">
 		<textarea name="suggestion" id="sgTextArea">

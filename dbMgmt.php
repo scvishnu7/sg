@@ -12,7 +12,6 @@ class DbManager {
 	var $sug_table="sg_body";
 
 function __construct(){
-	
 		$config = new Conf();
 		
 		$this->host="localhost";
@@ -27,10 +26,8 @@ function __construct(){
 
 public function writeToDb($suggestion){
 	$cur_date = date("Y-m-d h:i:sa");
-	echo "<br/> ".$cur_date." <br/>";
-//	$result = mysql_query("INSERT INTO sg_body values(12,\"".$cur_date."\",\"".$suggestion."\")",$dbh);
 	$result = mysql_query("INSERT INTO sg_body values(null,\"".$cur_date."\",\"".$suggestion."\")",$this->dbh);
-
+	echo "Done. Thanks for Suggestion.<br/>";
 }
 
 public function checkUserCred($user, $pass){
