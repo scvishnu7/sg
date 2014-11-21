@@ -31,6 +31,13 @@
 		$isLogined= false;
 	}
 	
+	if(isset($_POST['submit_issues'])){
+		$issue_tag = $_POST['hashtag'];
+		$issue_desc = $_POST['tagdesc'];
+		
+		$db->insertIssue($issue_tag, $issue_desc);	
+		
+	}
 
 	$suggestions = array();
 	$suggestions = $db->getAllSuggestion();
@@ -119,7 +126,13 @@ LOGOUT;
 	}
 ?>
 
-<h1>Suggestions Receved</h1>
+<h2> post Issues</h2>
+display existing issues and ability to edit and delete here.
+<form action="#" method="POST">
+HashTag: <input type="text" name="hashtag"> Description:<input type="text" name="tagdesc">
+<input type="submit" name="submit_issues">
+</form>
+<h2>Suggestions Receved</h2>
 <p>
 We need to add the sorting, grouping by the issues and the people tagged. Also the searching feature.<br/>
 Thinking about deleting feature. But i think it would be better to put delete button somewhere in remote :D.

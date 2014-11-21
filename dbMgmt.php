@@ -43,6 +43,25 @@ public function checkUserCred($user, $pass){
 
 }
 
+public function insertIssue($issue_tag, $issue_desc){
+	$query = "insert into sg_issues values(null,\"".$issue_tag."\",\"".$issue_desc."\")";
+	$result = mysql_query($query, $this->dbh);
+	echo $issue_tag." issues Added.<br/>";
+}
+
+public function getIssues(){
+	$result = mysql_query("SELECT * from sg_issues",$this->dbh);
+	$array = array();
+	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$issue = new Issue();
+		$issue->hashtag = $row["hashtag"];
+		$issue->description = $row["description"];
+		$issue->id = $row["id"];
+		$array[] = $issue;
+	}
+	return $array;
+	}
+
 public function getAllSuggestion(){
 	$result = mysql_query("SELECT * from sg_body");
 	$array = array();
