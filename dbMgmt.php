@@ -43,7 +43,7 @@ public function checkUserCred($user, $pass){
 public function insertIssue($issue_tag, $issue_desc){
 	$query = "insert into sg_issues values(null,\"".$issue_tag."\",\"".$issue_desc."\")";
 	$result = mysql_query($query, $this->dbh);
-	echo $issue_tag." issues Added.<br/>";
+	echo " Issue Added.<br/>";
 }
 
 public function getIssues(){
@@ -53,10 +53,15 @@ public function getIssues(){
 		$issue = new Issue();
 		$issue->hashtag = $row["hashtag"];
 		$issue->description = $row["description"];
-		$issue->id = $row["id"];
+		$issue->id = $row["is_id"];
 		$array[] = $issue;
 	}
 	return $array;
+	}
+
+	public function delIssues($iss_id){
+	$result = mysql_query("DELETE FROM sg_issues WHERE is_id=".$iss_id,$this->dbh);
+	echo $iss_id."issue Deleted.<br/>";
 	}
 
 public function getAllSuggestion(){
@@ -66,14 +71,15 @@ public function getAllSuggestion(){
 		$sug = new Suggestion();
 		$sug->body = $row["suggestion"];
 		$sug->date = $row["time"];
-		$sug->id = $row["id"];
+		$sug->id = $row["sg_id"];
 		$array[] = $sug;
 	}
 	return $array;
 	}
 	
 	public function delSuggestion($sug_id){
-			
+	$result = mysql_query("DELETE FROM sg_body WHERE sg_id=".$sug_id,$this->dbh);
+	echo $sug_id."Suggestion Deleted.<br/>";
 	}
 }
 

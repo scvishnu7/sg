@@ -38,9 +38,20 @@
 		$db->insertIssue($issue_tag, $issue_desc);	
 		
 	}
+	
+	if(isset($_GET['delsugid'])){
+		$db->delSuggestion($_GET['delsugid']);
+	}
+	
+	if(isset($_GET['delissid'])){
+		$db->delIssues($_GET['delissid']);	
+	}
 
 	$suggestions = array();
 	$suggestions = $db->getAllSuggestion();
+	
+	$issues = array();
+	$issues = $db->getIssues();
 	
 	//ask for user credential for accessing this page.
 	//allow user to change password.	
@@ -89,6 +100,16 @@
    
 }
 
+#issueTable {
+	width:600px;
+	margin-left: 150px;
+}
+
+#issueTable, #issueTable th, #issueTable td {
+   border: 1px solid black;
+   border-collapse: collapse;
+}
+
 td {
 	padding-left:10px;
 	padding-right:10px;
@@ -96,6 +117,14 @@ td {
 }
 
 </style>
+
+<script type="text/javascript">
+function clickedOn(name) {
+	alert("Hello World "+name);
+		
+		
+}
+</script>
 
 </head>
 <body>
@@ -126,13 +155,37 @@ LOGOUT;
 	}
 ?>
 
-<h2> post Issues</h2>
-display existing issues and ability to edit and delete here.
+<h2>Issues</h2>
+<div  id="issues">
+
 <form action="#" method="POST">
-HashTag: <input type="text" name="hashtag"> Description:<input type="text" name="tagdesc">
-<input type="submit" name="submit_issues">
+<table id="issueTable">
+<tr>
+	<td> #hashtag: description</td>
+	<td> action</td>
+</tr>
+<?php
+foreach( $issues as $iss) {
+	
+echo <<< ISSUE_ROW
+			<tr>
+			<td><b>#$iss->hashtag</b> : $iss->description</td>
+			<td> <a href='admin.php?delissid=$iss->id'>Delete</a></td>
+			</tr>
+ISSUE_ROW;
+}
+?>
+
+<tr>
+	<td><input type="text" name="hashtag" value="#hashtag"> <input type="text" name="tagdesc" value="description"> </td>
+	<td><input type="submit" name="submit_issues"> </td>
+</tr>
+	
+</table>
 </form>
-<h2>Suggestions Receved</h2>
+</div>
+
+<h2>Suggestions</h2>
 <p>
 We need to add the sorting, grouping by the issues and the people tagged. Also the searching feature.<br/>
 Thinking about deleting feature. But i think it would be better to put delete button somewhere in remote :D.
@@ -168,7 +221,7 @@ echo <<< TABLE_ROW
 			<td> $sug->id </td>
 			<td> $sug->date</td>
 			<td> $sug->body</td>
-			<td> <input type="button" onClick="clickedOn(\'abc\');" value="Delete"></td>
+			<td> <a href='admin.php?delsugid=$sug->id'>Delete</a></td>
 		</tr>
 
 TABLE_ROW;
@@ -181,11 +234,6 @@ TABLE_ROW;
 </div>
 </div>
 </body>
-<script type="text/javascript">
-function clickedOn(var name) {
-	alert("Hello World");	
-}
 
-</script>
 </html>
 
