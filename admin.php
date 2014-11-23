@@ -58,72 +58,39 @@
 	
 	//make able to delete suggestions.
 ?>
-
-<style type="text/css">
-
-.oddRow {
-		background-color: gray;
-	}
-
-.evenRow {
-	background-color: white;
-}
-#containerDiv {
-	padding-left:20px;
-	padding-right:20px;
-	padding-top:10px;
-	padding-bottom:10px;
-	background-color:gray;
-	width:60%;
-	margin:auto;
-	align:center;
-}
-#suggestionDiv {
-	padding-left:20px;
-	padding-right:20px;
-	padding-top:10px;
-	padding-bottom:10px;
-	background-color:pink;
-	width:90%;
-	margin:auto;
-	align:center;
-}
-
-#suggestionDiv table {
-	width:100%;
-	margin:auto;
-}
-
-#suggestionDiv table, #suggestionDiv th, #suggestionDiv td {
-   border: 1px solid black;
-   border-collapse: collapse;
-   
-}
-
-#issueTable {
-	width:600px;
-	margin-left: 150px;
-}
-
-#issueTable, #issueTable th, #issueTable td {
-   border: 1px solid black;
-   border-collapse: collapse;
-}
-
-td {
-	padding-left:10px;
-	padding-right:10px;
-	padding-top:5px;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="style/style.css">
 
 <script type="text/javascript">
-function clickedOn(name) {
-	alert("Hello World "+name);
-		
-		
+
+function validateIssueForm() {
+	var hashTag = document.forms["issueForm"]["hashtag"].value;
+	var tagDesc = document.forms["issueForm"]["tagdesc"].value;
+	var msg="";
+
+	if(hashTag.trim().length == 0){
+		alert("hashtag is required.");
+		return false;
+	} 
+	
+	if(hashTag == "#hashtag"){
+		if(!confirm("#hastag is placeholder. Do you want to use it anyway?")){
+		return false;
+		}	
+	}
+	if(tagDesc.trim().length == 0){
+	if(!confirm("\"description\" is found to be empty. Do you want to use it anyway?")){
+		return false;
+		}
+	}
+	if(tagDesc == "description"){
+		if(!confirm("\"description\" is placeholder. Do you want to use it anyway?")){
+		return false;
+		}	
+	}
+	return true;
+
 }
+
 </script>
 
 </head>
@@ -149,8 +116,8 @@ FORMINP;
 echo <<< LOGOUT
 	<form target="#" method="POST" style='display:inline;'>
 	<input type="submit" name="logout" value="LOGOUT">
-	<input type="submit" name="chgpasswd" value="Change Password" onClick="alert('working on');">
-	</form>
+	<a href="profile.php">Change password</a>	
+		</form>
 LOGOUT;
 	}
 ?>
@@ -158,7 +125,7 @@ LOGOUT;
 <h2>Issues</h2>
 <div  id="issues">
 
-<form action="#" method="POST">
+<form action="#" method="POST" name="issueForm" onsubmit="return validateIssueForm()">
 <table id="issueTable">
 <tr>
 	<td> #hashtag: description</td>
@@ -170,7 +137,7 @@ foreach( $issues as $iss) {
 echo <<< ISSUE_ROW
 			<tr>
 			<td><b>#$iss->hashtag</b> : $iss->description</td>
-			<td> <a href='admin.php?delissid=$iss->id'>Delete</a></td>
+			<td> <a href='admin.php?delissid=$iss->id' onclick="return confirm('Are you sure you wanna delete this issue?');">Delete</a></td>
 			</tr>
 ISSUE_ROW;
 }
@@ -221,7 +188,7 @@ echo <<< TABLE_ROW
 			<td> $sug->id </td>
 			<td> $sug->date</td>
 			<td> $sug->body</td>
-			<td> <a href='admin.php?delsugid=$sug->id'>Delete</a></td>
+			<td> <a href='admin.php?delsugid=$sug->id' onclick="return confirm('Are you sure you wanna delete this suggestion?');">Delete</a></td>
 		</tr>
 
 TABLE_ROW;

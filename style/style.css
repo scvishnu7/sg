@@ -1,0 +1,54 @@
+.oddRow {
+		background-color: gray;
+	}
+
+.evenRow {
+	background-color: white;
+}
+#containerDiv {
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:10px;
+	padding-bottom:10px;
+	background-color:gray;
+	width:60%;
+	margin:auto;
+	align:center;
+}
+#suggestionDiv {
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:10px;
+	padding-bottom:10px;
+	background-color:pink;
+	width:90%;
+	margin:auto;
+	align:center;
+}
+
+#suggestionDiv table {
+	width:100%;
+	margin:auto;
+}
+
+#suggestionDiv table, #suggestionDiv th, #suggestionDiv td {
+   border: 1px solid black;
+   border-collapse: collapse;
+   
+}
+
+#issueTable {
+	width:600px;
+	margin-left: 150px;
+}
+
+#issueTable, #issueTable th, #issueTable td {
+   border: 1px solid black;
+   border-collapse: collapse;
+}
+
+td {
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:5px;
+}

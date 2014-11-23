@@ -61,7 +61,7 @@ public function getIssues(){
 
 	public function delIssues($iss_id){
 	$result = mysql_query("DELETE FROM sg_issues WHERE is_id=".$iss_id,$this->dbh);
-	echo $iss_id."issue Deleted.<br/>";
+	echo "issue Deleted.<br/>";
 	}
 
 public function getAllSuggestion(){
@@ -79,7 +79,17 @@ public function getAllSuggestion(){
 	
 	public function delSuggestion($sug_id){
 	$result = mysql_query("DELETE FROM sg_body WHERE sg_id=".$sug_id,$this->dbh);
-	echo $sug_id."Suggestion Deleted.<br/>";
+	echo "Suggestion Deleted.<br/>";
+	}
+	
+	public function changePass($currentUname, $uname, $currentPass, $newPass){
+		if($this->checkUserCred($currentUname,$currentPass)){		
+		$query = "UPDATE sg_user set username=\"".$uname."\" and password=password(\"".$newPass."\) where username=\"".$currentUname."\"";
+		$res = mysql_query($query, $this->dbh);
+		echo "Password Changed<br/>"; 	
+	} else {
+		echo "Sorry wrong password<br/>";	
+	}
 	}
 }
 

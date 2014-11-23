@@ -11,28 +11,55 @@
 		$confs[Conf::$key_dbuname]=$_POST['dbusername'];
 		$confs[Conf::$key_dbpass]=$_POST['dbpass'];
 			$cfg = new Conf();
-			$cfg->write_conf($confs);
+			$cfg->write_conf($confs,$_POST['adminName'],$_POST['adminPass']);
 			$_POST['submit']='done';
 	}	
 	
 	$config = new Conf();
 	$dbname=$config->dbname;
 	$dbuname=$config->dbuname;
-
 	
-	if(isset($_POST['createTable'])){
-			echo "trying";
-			$config = new Conf();
-			$config->createTables($_POST['adminName'],$_POST['adminPass']);	
+	if($config->isConfigured){
+		echo "Already configured. <br/>
+		Please contact sysadmin.<br/>";
+		exit();	
 	}
+
 ?>
+
+<script type="text/javascript">
+function validateForm() {
+   var dbName = document.forms["configForm"]["dbname"].value;
+   var dbUname = document.forms["configForm"]["dbusername"].value;
+   var dbPass = document.forms["configForm"]["dbpass"].value;
+   var adminName = document.forms["configForm"]["adminName"].value;
+   var adminPass = document.forms["configForm"]["adminPass"].value;
+   var adminRePass = document.forms["configForm"]["adminRePass"].value;
+   var msg="";
+   if(dbName.trim().length==0 || dbUname.trim().length==0 || dbPass.trim().length==0){
+		msg = "Database name, Database username and Database password are Essential and need to be correct.";   
+   } else if(adminName.trim().length==0){
+		msg = "Admin Name is required.";   
+   } else if(adminPass.trim().length==0){
+		msg = "Admin Pass is required.";   
+   } else if(adminPass != adminRePass){
+		msg = "admin password and conformation entry of password mismatched.";   
+   }
+   
+   if(msg.length > 0){
+   alert(msg);
+   return false;
+	}
+    return true;
+}
+</script>
 
 </head>
 <body>
 <?php
 echo <<< FORMBODY
 
-	<form action="#" method="POST">
+	<form action="#" method="POST" name="configForm" onsubmit="return validateForm()">
 	<table>
 	<tr>
 	<td>DB Name:</td>
@@ -64,7 +91,7 @@ echo <<< FORMBODY
 	</tr>	
 	<tr>
 	<td><input type="submit" name="submit" values="Save"/></td>
-	<td><input type="submit" name="createTable" value="Create Tables"/></td>
+
 	</tr>
 	</table>
 	</form>

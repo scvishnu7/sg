@@ -1,7 +1,9 @@
 <html>
 <head>
 <title>Suggestion Box</title>
+<link rel="stylesheet" type="text/css" href="style/homeStyle.css">
 <?php
+
 	include('dbMgmt.php');
 	
 	$db = new DbManager();
@@ -15,52 +17,6 @@
 	}
 ?>
 
-<style type="text/css">
-	body {
-		width:600px;
-		height:100%;
-		padding:0px;
-		margin:auto;
-		background-color: gray;
-	}
-	
-	#sgBox {
-		margin:auto;
-		padding:10px;
-	}
-	#container {
-		//height:100%;
-		//width:50%;
-		//margin:auto;
-		border-style: solid;
-		border-width: medium;
-		border-color: red;
-		//border: 15px solid red;
-		//border-top: 20px solid green;
-		padding:5px;
-	}
-	#sgTextArea {
-		width:560px;
-		height:200px;
-		margin:auto;
-		padding:5px;
-		position:relative;
-		background-color:white;		
-	}
-	#postBtnDiv {
-		width:40%;
-		margin-left:auto;
-		margin-right:auto;
-	}
-	#postButton {
-		height:50px;
-		width:100%;
-		margin-left:auto;
-		margin-right:auto;
-		margin-top:10px;
-		font-size:20;
-	}
-</style>
 </head>
 
 <body>

@@ -1,14 +1,18 @@
 <?php
 class Conf{
 	public static $conf_host="localhost";
-	public static $conf_fname="config.dat";
+	public static $conf_fname="config.dat.php";
 	public static $key_dbname="database_name";
 	public static $key_dbuname="database_username";
 	public static $key_dbpass="database_password";
+	public static $key_isConfigured="isConfigured";
+	
+	
 	
 	var $dbname;
 	var $dbuname;
 	var $dbpass;
+	var $isConfigured;
 	
 	function __construct(){
 		$confs= array();
@@ -16,24 +20,39 @@ class Conf{
 		$this->dbname=$confs->{Conf::$key_dbname};
 		$this->dbuname = $confs->{Conf::$key_dbuname};
 		$this->dbpass = $confs->{Conf::$key_dbpass};
+		$this->isConfigured = $confs->{Conf::$key_isConfigured};
 
 	}
 	
 	public function read_conf(){
 		$confs = array();
-		$file_content = file_get_contents("http://sg.localhost/config/".Conf::$conf_fname);
-		$confs = json_decode($file_content);
+		$file_content = file_get_contents(dirname(__FILE__)."/".Conf::$conf_fname);
+		$real_cont = str_replace("<?php", " ", $file_content);
+		//echo $file_content." <br/>".$real_cont;
+		$confs = json_decode($real_cont);
 
 		return $confs;
 	}
 	
-	public function write_conf($confs){
-		$str = json_encode($confs);
-		file_put_contents(Conf::$conf_fname, $str);
+	public function isConfigured(){
+		if($this->isConfigured==1) {
+			return true;
+		} else {
+			return false;
+		}	
 	}
-
-		//Create tables
-public function createTables($adminName,$adminPass){
+	
+	public function write_conf($confs,$adminName,$adminPass){
+		$confs[Conf::$key_isConfigured]=1;
+		$str = json_encode($confs);
+		file_put_contents(dirname(__FILE__)."/".Conf::$conf_fname, "<?php ".$str);
+		echo "Configuration Saved<br/>";
+		
+		$this->dbuname = $confs[Conf::$key_dbuname];
+		$this->dbpass = $confs[Conf::$key_dbpass];
+		$this->dbname = $confs[Conf::$key_dbname];		
+		
+		print_r($confs);		
 		
 	$dbh = mysql_connect(Conf::$conf_host, $this->dbuname, $this->dbpass)or die("cannot connect"); //Store data connection specifier in object
     mysql_select_db($this->dbname)or die("cannot select DB");
@@ -68,7 +87,7 @@ public function createTables($adminName,$adminPass){
 	
 	//relation of ptag and sg_body
 	$dDrop_ptag_sgTable = "drop table if exists sg_ptag_body";
-	$qMake_ptag_sgTable = "	create table sg_ptag_body(psg_id int auto_increment not null primary key,ptag_id int,sg_id int, foreign key (ptag_id) references sg_ptags(ptag_id), foreign key (sg_id)  references sg_body(sg_id)) ENGINE=INNODB";
+	$qMake_ptag_sgTable = "create table sg_ptag_body(psg_id int auto_increment not null primary key,ptag_id int,sg_id int, foreign key (ptag_id) references sg_ptags(ptag_id), foreign key (sg_id)  references sg_body(sg_id)) ENGINE=INNODB";
 	
 	
 	mysql_query($qDrop_sg_table, $dbh);
@@ -96,7 +115,10 @@ public function createTables($adminName,$adminPass){
 	mysql_query($dDrop_ptag_sgTable);
 	mysql_query($qMake_ptag_sgTable);
 		
-	echo "Done";
+	echo "Tables Created<br/>";
+	echo "Congratulation<br/><br/><br/>";
+	echo "Now you can access the admin panel and start using the sg <br/>";
+	exit();
 }	
 }
 ?>
