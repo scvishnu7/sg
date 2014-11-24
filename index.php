@@ -16,7 +16,22 @@
 		$db->writeToDb($suggestion);
 	}
 ?>
+<script type="text/javascript">
 
+function validateSug(){
+	var sug = document.forms["sgForm"]["suggestion"].value;
+	if(sug.trim().length==0){
+		alert("Empty suggestion will convey nothing at all :D.");
+		return false;	
+	} else if(sug.trim().length >= 200){
+		if(!confirm("Longer suggestion are normally boring. Do you want to suggest anyway?")){
+			return false;		
+		}	
+	} 
+	return true;
+	}
+
+</script>
 </head>
 
 <body>
@@ -41,7 +56,7 @@ ISSUE_ROW;
 	Example: <i>"The <b>#kitchen</b> is badly managed while the cook<b> @ramesh</b> is a hard working man."</i>
 	</p>
 	<div id="sgBox">
-		<form method="POST" action="#">
+		<form method="POST" action="#" name="sgForm" onsubmit="return validateSug()">
 		<textarea name="suggestion" id="sgTextArea">
 		</textarea><br/>
 		<div id="postBtnDiv">

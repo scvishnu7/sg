@@ -77,6 +77,23 @@ public function getAllSuggestion(){
 	return $array;
 	}
 	
+public function filterSugestions(){
+	//give me the logic to filter the suggestion :D
+	$result = mysql_query("SELECT * from sg_body ");
+	$array = array();
+	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$sug = new Suggestion();
+		$sug->body = $row["suggestion"];
+		$sug->date = $row["time"];
+		$sug->id = $row["sg_id"];
+		if($row["sg_id"]==12){
+			continue;		
+		}
+		$array[] = $sug;
+	}
+	return $array;
+	}	
+	
 	public function delSuggestion($sug_id){
 	$result = mysql_query("DELETE FROM sg_body WHERE sg_id=".$sug_id,$this->dbh);
 	echo "Suggestion Deleted.<br/>";

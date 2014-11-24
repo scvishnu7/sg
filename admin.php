@@ -48,8 +48,11 @@
 	}
 
 	$suggestions = array();
-	$suggestions = $db->getAllSuggestion();
-	
+	if(isset($_POST['filtersug'])){
+		$suggestions = $db->filterSugestions();
+	} else {
+		$suggestions = $db->getAllSuggestion();
+	}
 	$issues = array();
 	$issues = $db->getIssues();
 	
@@ -125,9 +128,8 @@ LOGOUT;
 <h2>Issues</h2>
 <div  id="issues">
 
-<form action="#" method="POST" name="issueForm" onsubmit="return validateIssueForm()">
 <table id="issueTable">
-<tr>
+<tr style="background-color:#00B8D4; font-size:20px">
 	<td> #hashtag: description</td>
 	<td> action</td>
 </tr>
@@ -143,13 +145,14 @@ ISSUE_ROW;
 }
 ?>
 
-<tr>
-	<td><input type="text" name="hashtag" value="#hashtag"> <input type="text" name="tagdesc" value="description"> </td>
+<form action="#" method="POST" name="issueForm" onsubmit="return validateIssueForm()">
+<tr style="background-color:#8BC34A; font-size:20px">
+	<td>New Issue <input type="text" name="hashtag" value="#hashtag" size="10"> <input type="text" name="tagdesc" value="description" size="40"> </td>
 	<td><input type="submit" name="submit_issues"> </td>
 </tr>
-	
-</table>
 </form>
+</table>
+
 </div>
 
 <h2>Suggestions</h2>
@@ -165,14 +168,13 @@ List suggestions On : <input type="text" name="issues">
 tagged to :<input type="text" name="personTagged">
 in period :<input type="text" name="period">
 containing word: <input type="text" name="searchKeyword">
-<input type="submit" name="list" value="Ok">
+<input type="submit" name="filtersug" value="Ok">
 </form>
 </div>
-<hr/>
 
 <div  id="suggestionDiv">
 <table >
-	<tr>
+	<tr style="background-color:#00B8D4; font-size:20px">
 		<td>ID</td>
 		<td>Date</td>
 		<td>Suggestion</td>

@@ -53,12 +53,14 @@ function validateForm() {
     return true;
 }
 </script>
-
+<link rel="stylesheet" type="text/css" href="../style/style.css">
 </head>
 <body>
+<h2>Configure your sg page</h2>
+Once you configure this, you will get no change to change database credentials from here.<br/></br>
 <?php
 echo <<< FORMBODY
-
+	<div id="configDiv">
 	<form action="#" method="POST" name="configForm" onsubmit="return validateForm()">
 	<table>
 	<tr>
@@ -95,6 +97,7 @@ echo <<< FORMBODY
 	</tr>
 	</table>
 	</form>
+	</div>
 FORMBODY;
 
 ?>

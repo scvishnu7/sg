@@ -21,7 +21,7 @@
 
 <html>
 <head>
-
+<link rel="stylesheet" type="text/css" href="style/style.css">
 <script type="text/javascript">
 
 function validateForm() {
@@ -66,6 +66,7 @@ function validateForm() {
 if($isLogined){
 		//show edit profile page
 echo <<< CHANGE_PASS
+	<div id="profileDiv">
 		<form target="#" method="POST" name="myForm" onsubmit="return validateForm()">
 		<table>
 			<tr> 
@@ -93,6 +94,7 @@ echo <<< CHANGE_PASS
 			<tr>
 		</table>
 		</form>
+		</div>
 CHANGE_PASS;
 		
 } else {
