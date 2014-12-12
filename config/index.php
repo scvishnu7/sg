@@ -7,6 +7,8 @@
 
 	if(isset($_POST['submit'])){
 		$confs= array();
+		$confs[Conf::$key_conf_host] = $_POST['hostname'];
+		$confs[Conf::$key_orgname]=$_POST['orgname'];
 		$confs[Conf::$key_dbname]=$_POST['dbname'];
 		$confs[Conf::$key_dbuname]=$_POST['dbusername'];
 		$confs[Conf::$key_dbpass]=$_POST['dbpass'];
@@ -18,6 +20,7 @@
 	$config = new Conf();
 	$dbname=$config->dbname;
 	$dbuname=$config->dbuname;
+	$hostname=$config->hostname;
 	
 	if($config->isConfigured){
 		echo "Already configured. <br/>
@@ -29,6 +32,7 @@
 
 <script type="text/javascript">
 function validateForm() {
+	
    var dbName = document.forms["configForm"]["dbname"].value;
    var dbUname = document.forms["configForm"]["dbusername"].value;
    var dbPass = document.forms["configForm"]["dbpass"].value;
@@ -64,6 +68,16 @@ echo <<< FORMBODY
 	<form action="#" method="POST" name="configForm" onsubmit="return validateForm()">
 	<table>
 	<tr>
+	<td>Name of orgination:</td>
+	<td><input type="text" name="orgname" value="$orgname" ><br/></td>
+	</tr>	
+	
+	<tr>
+	<td>Hostname:</td>
+	<td><input type="text" name="hostname" value="$hostname"><br/></td>
+	</tr>		
+	
+	<tr>
 	<td>DB Name:</td>
 	<td><input type="text" name="dbname" value="$dbname" ><br/></td>
 	</tr>
@@ -75,7 +89,7 @@ echo <<< FORMBODY
 	
 	<tr>
 	<td>DB Password:</td>
-	<td> <input type="password" name="dbpass" value="*******"><br/></td></tr>
+	<td> <input type="password" name="dbpass" ><br/></td></tr>
 	
 	
 	<tr>
@@ -85,11 +99,11 @@ echo <<< FORMBODY
 	
 	<tr>
 	<td>Admin Pass:</td>
-	<td><input type="password" name="adminPass" value="*******"></td>
+	<td><input type="password" name="adminPass" ></td>
 	</tr>
 	<tr>
 	<td>Admin Pass again:</td>
-	<td><input type="password" name="adminRePass" value="*******"></td>
+	<td><input type="password" name="adminRePass" ></td>
 	</tr>	
 	<tr>
 	<td><input type="submit" name="submit" values="Save"/></td>

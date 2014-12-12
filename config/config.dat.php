@@ -1,1 +1,1 @@
-<?php {"database_name":"sg","database_username":"root","database_password":"root","isConfigured":1}
+<?php {"hostname":"localhost","org_name":"Bis","database_name":"sg","database_username":"root","database_password":"root","isConfigured":1}

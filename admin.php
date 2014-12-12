@@ -46,16 +46,37 @@
 	if(isset($_GET['delissid'])){
 		$db->delIssues($_GET['delissid']);	
 	}
+	
+	//$issues = array();
+	$issues = $db->getIssues();
+	$itags = $db->get_itags();
+	$ptags = $db->get_ptags();
+	
+	$sel_itag="";
+	$sel_ptag="";
+		
+	$sel_from = "";
+	$sel_to="";
+	$sel_word="";	
 
 	$suggestions = array();
 	if(isset($_POST['filtersug'])){
-		$suggestions = $db->filterSugestions();
+				
+		$sel_itag = $_POST["filt_itag"];
+		$sel_ptag = $_POST["filt_ptag"];
+		$sel_from = $_POST["filt_from"];
+		$sel_to = $_POST["filt_to"];
+		$sel_word = $_POST["filt_word"];
+		
+		$suggestions = $db->filterSugestions($sel_itag, $sel_ptag,$sel_from, $sel_to,$sel_word);		
 	} else {
 		$suggestions = $db->getAllSuggestion();
 	}
-	$issues = array();
-	$issues = $db->getIssues();
 	
+	
+	//print_r($itags);
+	echo "<br/>";
+	//print_r($ptags);
 	//ask for user credential for accessing this page.
 	//allow user to change password.	
 	
@@ -75,7 +96,7 @@ function validateIssueForm() {
 		return false;
 	} 
 	
-	if(hashTag == "#hashtag"){
+	if(hashTag == "hashtag"){
 		if(!confirm("#hastag is placeholder. Do you want to use it anyway?")){
 		return false;
 		}	
@@ -119,7 +140,7 @@ FORMINP;
 echo <<< LOGOUT
 	<form target="#" method="POST" style='display:inline;'>
 	<input type="submit" name="logout" value="LOGOUT">
-	<a href="profile.php">Change password</a>	
+	<a href="profile.php">Advance Administration</a>	
 		</form>
 LOGOUT;
 	}
@@ -147,7 +168,7 @@ ISSUE_ROW;
 
 <form action="#" method="POST" name="issueForm" onsubmit="return validateIssueForm()">
 <tr style="background-color:#8BC34A; font-size:20px">
-	<td>New Issue <input type="text" name="hashtag" value="#hashtag" size="10"> <input type="text" name="tagdesc" value="description" size="40"> </td>
+	<td>New Issue <input type="text" name="hashtag" value="hashtag" size="10"> <input type="text" name="tagdesc" value="description" size="40"> </td>
 	<td><input type="submit" name="submit_issues"> </td>
 </tr>
 </form>
@@ -164,18 +185,39 @@ Thinking about deleting feature. But i think it would be better to put delete bu
 <div id="containerDiv">
 <div id="sortOptions">
 <form action="#" method="POST">
-List suggestions On : <input type="text" name="issues">
-tagged to :<input type="text" name="personTagged">
-in period :<input type="text" name="period">
-containing word: <input type="text" name="searchKeyword">
+List suggestions On : 
+<select name="filt_itag">
+<option value=""></option>
+<?php
+foreach($itags as $itag){
+	$isSel = $sel_itag==$itag?"selected":"";
+	echo "<option value=\"".$itag."\"".$isSel."> #".$itag."</option>";
+}
+?>
+</select>
+tagged to :
+<select name="filt_ptag">
+<option value=""></option>
+<?php
+foreach($ptags as $ptag){
+	$isSel = $sel_ptag==$ptag?"selected":"";
+	echo "<option value=\"".$ptag."\"".$isSel."> @".$ptag."</option>";
+}
+?>
+</select>
+<!--
+from:<input type="date" name="filt_from">
+to:<input type="date" name="filt_to">
+-->
+containing word: <input type="text" name="filt_word">
 <input type="submit" name="filtersug" value="Ok">
 </form>
 </div>
 
 <div  id="suggestionDiv">
-<table >
+<table width="100%" >
 	<tr style="background-color:#00B8D4; font-size:20px">
-		<td>ID</td>
+		<td>S.N.</td>
 		<td>Date</td>
 		<td>Suggestion</td>
 		<td>Action</td>
@@ -187,7 +229,7 @@ foreach( $suggestions as $sug) {
 	$cssClass = ((int)$i%2)==0?'oddRow':'evenRow';
 echo <<< TABLE_ROW
 		<tr class=$cssClass>
-			<td> $sug->id </td>
+			<td> $i </td>
 			<td> $sug->date</td>
 			<td> $sug->body</td>
 			<td> <a href='admin.php?delsugid=$sug->id' onclick="return confirm('Are you sure you wanna delete this suggestion?');">Delete</a></td>

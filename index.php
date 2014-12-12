@@ -36,7 +36,7 @@ function validateSug(){
 
 <body>
 <div id="container">
-	<h2 style="background-color:green;width:100%;text-align:center">Lts2gthr's Suggestion Box</h2>
+	<h2 style="background-color:green;width:100%;text-align:center"> <?php if(strlen($db->orgname)>0){echo $db->orgname."'s";} ?> Suggestion Box</h2>
 	<p>You can suggest on following topics by including the corresponding has tag or on anything you want.<br/>
 	You can also tag some people simple by prepending @ before their name.</p> 
 	
@@ -53,12 +53,11 @@ ISSUE_ROW;
 
 </div>	
 	<p>
-	Example: <i>"The <b>#kitchen</b> is badly managed while the cook<b> @ramesh</b> is a hard working man."</i>
+	Example: <i>"The <b>#website</b> is bad due to wrong design decision of <b> @ramesh</b>."</i>
 	</p>
 	<div id="sgBox">
 		<form method="POST" action="#" name="sgForm" onsubmit="return validateSug()">
-		<textarea name="suggestion" id="sgTextArea">
-		</textarea><br/>
+		<textarea name="suggestion" id="sgTextArea" ></textarea><br/>
 		<div id="postBtnDiv">
 		<input type="submit" name="submit" value="Ok, Suggest" id="postButton" />
 		</div>

@@ -16,6 +16,11 @@
 			echo "Done";
 	}
 	
+	if(isset($_POST['chgTitle'])){
+			echo "is working on...";
+				
+	}
+	
 
 ?>
 
@@ -60,7 +65,7 @@ function validateForm() {
 </head>
 
 <body>
-<h2>Profile page</h2>
+<h2>Administration</h2>
 
 <?php
 if($isLogined){
@@ -68,6 +73,8 @@ if($isLogined){
 echo <<< CHANGE_PASS
 	<div id="profileDiv">
 		<form target="#" method="POST" name="myForm" onsubmit="return validateForm()">
+		<fieldset> 
+        <legend>Profile </legend>
 		<table>
 			<tr> 
 				<td>Admin Name: </td>
@@ -93,9 +100,23 @@ echo <<< CHANGE_PASS
 				<td><input type="submit" name="changepass"> </td>			
 			<tr>
 		</table>
+		</fieldset>
 		</form>
 		</div>
 CHANGE_PASS;
+
+echo <<< COMP_TITLE
+<div id="compTitleDiv">
+<form target="#" method="POST">
+<fieldset> 
+<legend>Company </legend>
+Title :<input type="text" name="title" size="35"/>
+<input type="submit" name="chgTitle" value="Change"/>
+
+</fieldset>
+</form>
+</div>
+COMP_TITLE;
 		
 } else {
 	//show login page

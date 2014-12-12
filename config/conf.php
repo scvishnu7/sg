@@ -1,14 +1,15 @@
 <?php
 class Conf{
-	public static $conf_host="localhost";
+	public static $key_conf_host="hostname";
 	public static $conf_fname="config.dat.php";
+	public static $key_orgname="org_name";
 	public static $key_dbname="database_name";
 	public static $key_dbuname="database_username";
 	public static $key_dbpass="database_password";
 	public static $key_isConfigured="isConfigured";
 	
-	
-	
+	var $conf_host;
+	var $orgname;
 	var $dbname;
 	var $dbuname;
 	var $dbpass;
@@ -17,11 +18,12 @@ class Conf{
 	function __construct(){
 		$confs= array();
 		$confs = $this->read_conf();
+		$this->conf_host = $confs->{Conf::$key_conf_host};
+		$this->orgname = $confs->{Conf::$key_orgname};
 		$this->dbname=$confs->{Conf::$key_dbname};
 		$this->dbuname = $confs->{Conf::$key_dbuname};
 		$this->dbpass = $confs->{Conf::$key_dbpass};
 		$this->isConfigured = $confs->{Conf::$key_isConfigured};
-
 	}
 	
 	public function read_conf(){
@@ -42,19 +44,25 @@ class Conf{
 		}	
 	}
 	
+//	public function write_conf($confs){
+//	$this->write_conf($confs,)	
+//	}
+	
 	public function write_conf($confs,$adminName,$adminPass){
 		$confs[Conf::$key_isConfigured]=1;
 		$str = json_encode($confs);
 		file_put_contents(dirname(__FILE__)."/".Conf::$conf_fname, "<?php ".$str);
 		echo "Configuration Saved<br/>";
 		
+		$this->conf_host = $confs[Conf::$key_conf_host];
 		$this->dbuname = $confs[Conf::$key_dbuname];
 		$this->dbpass = $confs[Conf::$key_dbpass];
-		$this->dbname = $confs[Conf::$key_dbname];		
+		$this->dbname = $confs[Conf::$key_dbname];
+		$this->orgname = $confs[Conf::$key_orgname];		
 		
-		print_r($confs);		
+		//print_r($confs);		
 		
-	$dbh = mysql_connect(Conf::$conf_host, $this->dbuname, $this->dbpass)or die("cannot connect"); //Store data connection specifier in object
+	$dbh = mysql_connect($this->conf_host, $this->dbuname, $this->dbpass)or die("cannot connect"); //Store data connection specifier in object
     mysql_select_db($this->dbname)or die("cannot select DB");
     
 	$qDrop_sg_table="drop table if exists sg_body";
@@ -71,28 +79,28 @@ class Conf{
 	
 	//every new tag will go here with itagId	
 	$dDrop_itagTable = "drop table if exists sg_itags";
-	$qMake_itagTable = "create table sg_itags (itag_id int auto_increment not null primary key, hashtag varchar(100),created_date varchar(30)) ENGINE=INNODB";
+	$qMake_itagTable = "create table sg_itags (itag varchar(100) not null primary key ,created_date varchar(30)) ENGINE=INNODB";
 	
 		
 	//every new person will go here with ptagId
 	$dDrop_ptagTable = "drop table if exists sg_ptags";
-	$qMake_ptagTable = "create table sg_ptags (ptag_id int auto_increment not null primary key, tname varchar(100),created_date varchar(30)) ENGINE=INNODB";
+	$qMake_ptagTable = "create table sg_ptags (ptag varchar(100) not null primary key,created_date varchar(30)) ENGINE=INNODB";
 		
 	//relation of itag and sg_body	
 	/*
 	create table sg_itag_sg(id int auto_increment not null primary key,itag_id int(11),sg_id int(11), foreign key (itag_id) references sg_itags(id), foreign key (sg_id)  references sg_sgbody(id)) ENGINE=INNODB;
 	*/
-	$dDrop_itag_sgTable = "drop table if exists sg_itag_body";
-	$qMake_itag_sgTable = "	create table sg_itag_body(isg_id int auto_increment not null primary key,itag_id int,sg_id int, foreign key (itag_id) references sg_itags(itag_id), foreign key (sg_id)  references sg_body(sg_id)) ENGINE=INNODB";
+	//$dDrop_itag_sgTable = "drop table if exists sg_itag_body";
+	//$qMake_itag_sgTable = "	create table sg_itag_body(isg_id int auto_increment not null primary key,itag_id int,sg_id int, foreign key (itag_id) references sg_itags(itag_id), foreign key (sg_id)  references sg_body(sg_id)) ENGINE=INNODB";
 	
 	//relation of ptag and sg_body
-	$dDrop_ptag_sgTable = "drop table if exists sg_ptag_body";
-	$qMake_ptag_sgTable = "create table sg_ptag_body(psg_id int auto_increment not null primary key,ptag_id int,sg_id int, foreign key (ptag_id) references sg_ptags(ptag_id), foreign key (sg_id)  references sg_body(sg_id)) ENGINE=INNODB";
+	//$dDrop_ptag_sgTable = "drop table if exists sg_ptag_body";
+	//$qMake_ptag_sgTable = "create table sg_ptag_body(psg_id int auto_increment not null primary key,ptag_id int,sg_id int, foreign key (ptag_id) references sg_ptags(ptag_id), foreign key (sg_id)  references sg_body(sg_id)) ENGINE=INNODB";
 	
 	
 	mysql_query($qDrop_sg_table, $dbh);
 	mysql_query($qMake_sg_table, $dbh);
-	mysql_query($qInsTestData, $dbh);
+//	mysql_query($qInsTestData, $dbh);
 	
 	mysql_query($qDrop_userTable);
 	mysql_query($qMake_userTable);
